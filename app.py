@@ -1,0 +1,16 @@
+import psutil
+from flask import Flask
+
+app = Flask(__name__)
+
+@app.route("/")  #indicates the app will run in home path
+def index():
+    cpu_percent = psutil.cpu_percent()
+    mem_percent = psutil.virtual_memory().percent
+    message = None
+    if cpu_percent > 80 or mem_percent > 80:
+        message = "High utilization of CPU or Memory detected. Please scale up"
+    return f"CPU utilization: {cpu_percent} and Memory utillization: {mem_percent}"
+
+if __name__ == '__main__':
+    app.run(debug = True, host = '0.0.0.0')
